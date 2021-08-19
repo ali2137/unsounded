@@ -15,9 +15,7 @@ from tensorflow.keras.optimizers.schedules import InverseTimeDecay
 
 import matplotlib.pyplot as plt
 
-sys.path.append('F:\\aicomposer\\models\\sequential_lstm')
-from tsp import data_process_int,data_process_map
-# from subclass import att
+
 tf.random.set_seed(123)
 '''
 '''
@@ -25,7 +23,7 @@ out=20
 seq_len=20
 filterss=20
 filters=20
-network_input, network_output = data_process_int('data.csv',seq_len,trained_level=0.7,training=True,scale='None')       
+network_input, network_output = data_process('data.csv',seq_len,trained_level=0.7,training=True,scale='None') #from another script for data processing      
 eps = 200
 
 #Core model design
@@ -120,19 +118,14 @@ with open('modelsummary.txt', 'w') as f:
 #   decay_rate=0.0001,
 #   staircase=False)
 opti = keras.optimizers.Adam(lr = 0.008)
-
-
 callback = tf.keras.callbacks.EarlyStopping(monitor='val_pitch_out_accuracy', patience=20)
 
 model.compile(loss=['mse', 'mse'],metrics=['accuracy'], optimizer=opti)
+history=model.fit(network_input, network_output, validation_split=0.3,validation_data=(network_input, network_output),
+                  epochs=eps,batch_size=2400,verbose=2)
 
 
-
-# history=model.fit(network_input, network_output, validation_split=0.3,validation_data=(network_input, network_output),
-#                   epochs=eps,batch_size=2400,verbose=2)
-
-
-# # model.save('cnn_nightly_short_cut')
+model.save('cnn_att')
 # # model.save_weights("cnn_nightly_short_cut.h5")
 
 
