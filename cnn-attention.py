@@ -20,20 +20,6 @@ from tsp import data_process_int,data_process_map
 # from subclass import att
 tf.random.set_seed(123)
 '''
-def get_filelist(input_address):
-    os.chdir(input_address)
-    file_chdir = os.getcwd()
-    classify = []
-    folder = []
-    for root,dirs,files in os.walk(file_chdir):
-        for dir in dirs: 
-            classify.append(os.path.join(root,dir))
-    for root,dirs,files in os.walk(file_chdir):
-        for dir in dirs: 
-            folder.append(os.path.join(dir))
-    return classify,folder
-
-    #model(freqdata).shape
 '''
 out=20
 seq_len=20
@@ -42,6 +28,7 @@ filters=20
 network_input, network_output = data_process_int('data.csv',seq_len,trained_level=0.7,training=True,scale='None')       
 eps = 200
 
+#Core model design
 n = Input(shape = (seq_len,1),name = 'pitch_in')
 d = Input(shape = (seq_len,1),name = 'duration_in')
 
